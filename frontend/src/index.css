@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+  --animate-deal: deal 0.4s ease-out backwards;
+
+  @keyframes deal {
+    from {
+      opacity: 0;
+      transform: translateY(-40px) rotate(-8deg) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg) scale(1);
+    }
+  }
+}

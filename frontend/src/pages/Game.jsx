@@ -35,7 +35,7 @@ const Game = () => {
 
   const playerStand = () => {
     setGameOver(true);
-    const newHand = [...playerHand, getRandomCarFromDeck()];
+    const newHand = [...dealerHand, getRandomCarFromDeck()];
     setDealerHand(newHand);
     const dealerValue = calculateHandValue(newHand);
     if (dealerValue > 21) {
@@ -52,7 +52,7 @@ const Game = () => {
     hand.forEach((card) => {
       if (card.rank === "J" || card.rank === "Q" || card.rank === "K") {
         value += 10;
-      } else if (card.rank === A) {
+      } else if (card.rank === "A") {
         aceCount += 1;
         value += 11;
       } else {
@@ -63,6 +63,7 @@ const Game = () => {
       value -= 10;
       aceCount -= 1;
     }
+    return value;
   };
 
   const handleGameOuver = (result) => {
@@ -76,7 +77,7 @@ const Game = () => {
     setDealerHand([]);
     setGameOver(false);
     setResult({ type: "", message: "" });
-    newGame(false);
+    setNewGame(false);
     setGameDeck(combinations);
   };
 
@@ -115,6 +116,7 @@ const Game = () => {
 
         case dealerValue > playerValue && dealerValue <= 21:
           setResult({ type: "dealer", message: "Dealer wins." });
+          setNewGame(true);
           break;
 
         default:
@@ -142,15 +144,15 @@ const Game = () => {
       <div className="flex justify-center gap-2 mt-4">
         {!newGame ? (
           <>
-            <Button bg_color={"green"} onClick={dealCardToPlayer}>
+            <Button bg_color="green" onClick={dealCardToPlayer}>
               Hit
             </Button>
-            <Button bg_color={"red"} onClick={playerStand}>
+            <Button bg_color="red" onClick={playerStand}>
               Stand
             </Button>
           </>
         ) : (
-          <Button bg_color={"blue"} onClick={resetGame}>
+          <Button bg_color="blue" onClick={resetGame}>
             Reset
           </Button>
         )}

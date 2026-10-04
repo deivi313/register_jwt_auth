@@ -7,8 +7,8 @@ const Hand = ({ cards, title, handValue }) => {
       <h2 className="text-2xl mb-2">
         {title}:{handValue}
       </h2>
-      <div className="flex flex-column sm:flex-row gap-1">
-        {cards.map((cards, index) => (
+      <div className="flex flex-column sm:flex-row gap-1 ">
+        {cards.map((card, index) => (
           <Card key={index} card={card} />
         ))}
       </div>
