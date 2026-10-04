@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import { useState, useEffect } from "react";
+import Game from "./pages/Game";
 
 function App() {
   const [name, setName] = useState("");
@@ -30,14 +31,10 @@ function App() {
       <BrowserRouter>
         <Navbar name={name} setName={setName} />
         <Routes>
-          <Route
-            path="/"
-            element={() => {
-              <Home name={name} />;
-            }}
-          />
-          <Route path="/login" element={() => <Login setName={setName} />} />
-          <Route path="/register" element={Register} />
+          <Route path="/" element={<Home name={name} />} />
+          <Route path="/login" element={<Login setName={setName} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/game" element={<Game />} />
         </Routes>
       </BrowserRouter>
     </div>

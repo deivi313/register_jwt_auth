@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,20 +10,21 @@ const Register = () => {
   const submit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost/api/register", {
-      method: "Post",
-      headers: { "Content-Type": "application.josn" },
+    await fetch("http://localhost:8000/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name,
         email,
         password,
       }),
     });
+
     setRedirect(true);
   };
 
   if (redirect) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" />;
   }
 
   return (
