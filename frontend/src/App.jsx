@@ -1,9 +1,9 @@
-import "./App.css";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import { useState, useEffect } from "react";
 
 function App() {
   const [name, setName] = useState("");

@@ -1,44 +1,53 @@
-import "./App.css";
-import { useState, useEffect } from "react";
-import Login from "./pages/Login";
-import Navbar from "./components/Navbar";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
-function App() {
-  const [name, setName] = useState("");
+const Login = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
-  const fetchUser = async () => {
-    const response = await fetch("http://localhost:8000/api/user", {
+  const submit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:8000/api/login", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
     const content = await response.json();
-
-    if (response.ok) {
-      setRedirect(true);
-      props.setName(content.name);
-    }
+    setRedirect(true);
+    props.setName(content.name);
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  if (redirect) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div>
-      <BrowserRouter>
-        <Navbar name={name} setName={setName} />
-        <Routes>
-          <Route path="/" element={<Home name={name} />} />
-          <Route path="/login" element={<Login setName={setName} />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </BrowserRouter>
+      <form onSubmit={submit}>
+        <h1>Please sign in</h1>
+        <input
+          type="email"
+          placeholder="Email Address"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button type="submit">Sign In</button>
+      </form>
     </div>
   );
-}
+};
 
-export default App;
+export default Login;
