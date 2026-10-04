@@ -1,23 +1,36 @@
 const express = require("express");
-const { Sequelize } = require("sequelize");
+const sequelize = require("./db");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const routes = require("./routes/routes");
 
-const sequelize = new Sequelize("register_jwt_auth", "root", "root", {
-  host: "localhost",
-  dialect: "mysql",
-});
+const app = express();
 
-sequelize
-  .authenticate()
-  .then(() => console.log("connected"))
-  .catch((err) => console.log("connection failed:", err));
+app.use(cookieParser());
 
-app = express();
-const port = 8000;
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000"],
+  }),
+);
+
+app.use(express.json());
+
+app.use("/api", routes);
 
 app.get("/", (req, res) => {
-  res.send(body, "hello");
+  res.send("hello");
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+const port = 8000;
+
+sequelize
+  .sync()
+  .then(() => {
+    console.log("connected");
+    app.listen(port, () =>
+      console.log(`Server running on http://localhost:${port}`),
+    );
+  })
+  .catch((err) => console.log("connection failed:", err));
