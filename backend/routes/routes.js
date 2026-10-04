@@ -44,7 +44,9 @@ router.post("/login", async (req, res) => {
 
   //   const { password, ...data } = user.toJSON();
 
-  res.send({ message: "success" });
+  const { password, ...data } = user.toJSON();
+
+  res.send(data);
 });
 
 router.get("/user", async (req, res) => {
